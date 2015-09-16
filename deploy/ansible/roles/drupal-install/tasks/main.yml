@@ -89,7 +89,7 @@
 - name: Drupal | Configuration file drupal-settings.php
   template: 
     src: drupal-settings.php
-    dest: "{{ drupal_root_path }}/settings.php"
+    dest: "{{ drupal_root_path }}/sites/default/settings.php"
     owner: www-data
     mode: 755
   tags:
