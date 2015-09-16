@@ -13,7 +13,7 @@
         {% if hub_idp_url is defined %}"idp": "{{ hub_idp_url }}",{% endif %}
         "enabled": {{ sso_enabled }},
         "slo_enabled": true,
-        "init_path": "/maestrano/auth/saml/init.php",
+        "init_path": "/maestrano/auth/saml/index.php",
         "consume_path": "/maestrano/auth/saml/consume.php",
         "creation_mode": "virtual"
     },
