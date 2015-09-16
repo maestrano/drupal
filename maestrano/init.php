@@ -16,7 +16,7 @@ Maestrano::configure(ROOT_PATH . 'maestrano.json');
 //-----------------------------------------------
 // Require your app specific files here
 //-----------------------------------------------
-define('DRUPAL_ROOT', ROOT_PATH);
+if (!defined('DRUPAL_ROOT')) { define('DRUPAL_ROOT', ROOT_PATH); }
 require_once ROOT_PATH . '/includes/bootstrap.inc';
 // Make sure cookie domain is set to the right value
 $cookie_domain = $_SERVER['HTTP_HOST'];
