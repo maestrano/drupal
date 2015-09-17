@@ -32,12 +32,8 @@
     $mnoSession = new Maestrano_Sso_Session($_SESSION, $saml_user);
     $mnoSession->save();
     
-    // Redirect the user to previous or home page
-    if(isset($_SESSION['mno_previous_uri'])) {
-      header('Location: ' . $_SESSION['mno_previous_uri']);
-    } else {
-      header('Location: /');
-    }
+    // Redirect the user to home page
+    header('Location: /');
   } else {
     echo 'There was an error during the authentication process.<br/>';
     echo 'Please try again. If issue persists please contact support@maestrano.com';
