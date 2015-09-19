@@ -43,14 +43,14 @@ class Maestrano_Sso_SessionTest extends PHPUnit_Framework_TestCase
   	public function testContructsAnInstanceFromHttpSessionAndSsoUser()
   	{
   		$samlResp = new SamlMnoRespStub();
-  		$mno_user = new Maestrano_Sso_User($samlResp);
-  		$this->subject = new Maestrano_Sso_Session($this->httpSession, $mno_user);
+  		$user = new Maestrano_Sso_User($samlResp);
+  		$this->subject = new Maestrano_Sso_Session($this->httpSession, $user);
 
   		$this->assertEquals($this->httpSession, $this->subject->getHttpSession());
-  		$this->assertEquals($mno_user->getUid(), $this->subject->getUid());
-  		$this->assertEquals($mno_user->getGroupUid(), $this->subject->getGroupUid());
-  		$this->assertEquals($mno_user->getSsoSession(), $this->subject->getSessionToken());
-  		$this->assertEquals($mno_user->getSsoSessionRecheck(), $this->subject->getRecheck());
+  		$this->assertEquals($user->getUid(), $this->subject->getUid());
+  		$this->assertEquals($user->getGroupUid(), $this->subject->getGroupUid());
+  		$this->assertEquals($user->getSsoSession(), $this->subject->getSessionToken());
+  		$this->assertEquals($user->getSsoSessionRecheck(), $this->subject->getRecheck());
   	}
 
   	
