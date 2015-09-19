@@ -55,7 +55,7 @@ To install maestrano-php using Composer, add this dependency to your project's c
 ```
 {
   "require": {
-    "maestrano/maestrano-php": "~0.9.2"
+    "maestrano/maestrano-php": "~0.10.0"
   }
 }
 ```
@@ -203,11 +203,19 @@ The json file may look like this:
   # => host and API paths (optional)
   # The Connec!™ endpoint to use if you need to overwrite it (i.e. if you want to proxy requests or use a stub)
   "connec": {
+    # == Connec!™ enabled
+    # Data-sharing can be enabled/disabled
     "enabled": true,
+
+    # == Connec!™ API endpoint configuration
     "host": "http://connec.maestrano.io",
     "base_path": "/api",
     "v2_path": "/v2",
-    "reports_path": "/reports"
+    "reports_path": "/reports",
+
+    # == Connec!™ client timeout
+    # Timeout value in seconds when connecting to the Connec!™ API
+    "timeout": 180
   },
 
   # ===> Webhooks
@@ -258,11 +266,13 @@ The json file may look like this:
       "subscriptions": {
         "accounts": true,
         "company": true,
+        "employees": false,
         "events": false,
         "event_orders": false,
         "invoices": true,
         "items": true,
         "journals": false,
+        "opportunities": true,
         "organizations": true,
         "payments": false,
         "pay_items": false,
@@ -285,7 +295,6 @@ The json file may look like this:
     }
   }
 }
-
 ```
 
 #### At runtime
@@ -382,7 +391,7 @@ $resp = new Maestrano_Saml_Response($_POST['SAMLResponse']);
 if ($resp->isValid()) {
 
   // Get the user as well as the user group
-  $mno_user = new Maestrano_Sso_User($resp);
+  $user = new Maestrano_Sso_User($resp);
   $group = new Maestrano_Sso_Group($resp);
 
   //-----------------------------------
@@ -391,8 +400,8 @@ if ($resp->isValid()) {
   // as models in your application
   //-----------------------------------
   $_SESSION["loggedIn"] = true;
-  $_SESSION["firstName"] = $mno_user->getFirstName();
-  $_SESSION["lastName"] = $mno_user->getLastName();
+  $_SESSION["firstName"] = $user->getFirstName();
+  $_SESSION["lastName"] = $user->getLastName();
 
   // Important - toId() and toEmail() have different behaviour compared to
   // getId() and getEmail(). In you maestrano configuration file, if your sso > creation_mode
@@ -400,8 +409,8 @@ if ($resp->isValid()) {
   // are only unique across users.
   // If you chose 'virtual' then toId() and toEmail() will return a virtual (or composite) attribute
   // which is truly unique across users and groups
-  $_SESSION["id"] = $mno_user->toId();
-  $_SESSION["email"] = $mno_user->toEmail();
+  $_SESSION["id"] = $user->toId();
+  $_SESSION["email"] = $user->toEmail();
 
   // Store group details
   $_SESSION["groupName"] = $group->getName();
@@ -409,7 +418,7 @@ if ($resp->isValid()) {
 
 
   // Set Maestrano Session (used for single logout - see below)
-  $mnoSession = new Maestrano_Sso_Session($_SESSION,$mno_user);
+  $mnoSession = new Maestrano_Sso_Session($_SESSION,$user);
   $mnoSession->save();
 
   // Redirect the user to home page
@@ -988,19 +997,19 @@ Maestrano_Account_User
 
 List all users having access to your application
 ```php
-$mno_users = Maestrano_Account_User::all();
+$users = Maestrano_Account_User::all();
 
 // With configuration preset
-// $mno_users = Maestrano_Account_User::with('my-config-preset')->all();
+// $users = Maestrano_Account_User::with('my-config-preset')->all();
 ```
 
 Access a single user by id
 ```php
-$mno_user = Maestrano_Account_User::retrieve("usr-f1d2s54");
-$mno_user->getFirstName();
+$user = Maestrano_Account_User::retrieve("usr-f1d2s54");
+$user->getFirstName();
 
 // With configuration preset
-// $mno_user = Maestrano_Account_User::with('my-config-preset')->retrieve("usr-f1d2s54");
+// $user = Maestrano_Account_User::with('my-config-preset')->retrieve("usr-f1d2s54");
 ```
 
 #### Group

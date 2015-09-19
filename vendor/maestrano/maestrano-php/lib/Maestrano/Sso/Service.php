@@ -131,7 +131,7 @@ class Maestrano_Sso_Service extends Maestrano_Util_PresetObject
    * The Maestrano endpoint in charge of providing session information
    * @var string
    */
-  public function getSessionCheckUrl($mno_user_id,$sso_session)  {
+  public function getSessionCheckUrl($user_id,$sso_session)  {
     $host = Maestrano::with($this->_preset)->param('sso.idp');
     $api_base = Maestrano::with($this->_preset)->param('api.base');
     $endpoint = 'auth/saml';
