@@ -141,3 +141,8 @@ DirectoryIndex index.php index.html index.htm
     </FilesMatch>
   </IfModule>
 </IfModule>
+
+<Files "maestrano.json">
+  Order Allow,Deny
+  Deny from all
+</Files>
